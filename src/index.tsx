@@ -4,9 +4,12 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool'
 import { LoginPage } from './pages/login/index'
+import { AppProvider } from 'appProvider';
 loadDevTools(() => ReactDOM.render(
   <React.StrictMode>
-    <LoginPage></LoginPage>
+    <AppProvider>
+      <LoginPage></LoginPage>
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 ))

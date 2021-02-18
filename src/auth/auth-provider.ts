@@ -1,4 +1,4 @@
-const key = '__auth_provide__token'
+const key = '__auth_provider__token'
 const baseUrl = process.env.REACT_APP_BASE_URL
 
 export const getToken = () => window.localStorage.getItem(key)
@@ -12,12 +12,14 @@ export const login = (data: { username: string, password: string }) => {
     return fetch(`${baseUrl}/login`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify(data)
     }).then(async (res: Response) => {
         if (res.ok) {
             return handleUserResponse(await res.json())
+        } else {
+            return Promise.reject(data)
         }
     })
 }
@@ -32,8 +34,10 @@ export const register = (data: { username: string, password: string }) => {
     }).then(async (res: Response) => {
         if (res.ok) {
             return handleUserResponse(await res.json())
+        } else {
+            return Promise.reject(data)
         }
     })
 }
 
-export const logout = () => window.localStorage.removeItem(key)
+export const logout = async () => window.localStorage.removeItem(key)
