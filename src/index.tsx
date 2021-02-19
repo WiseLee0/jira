@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool'
-import { LoginPage } from './pages/login/index'
 import { AppProvider } from 'appProvider';
+import { App } from 'App';
+
 loadDevTools(() => ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
-      <LoginPage></LoginPage>
+      <App></App>
     </AppProvider>
   </React.StrictMode>,
   document.getElementById('root')
