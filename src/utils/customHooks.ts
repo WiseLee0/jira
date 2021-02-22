@@ -6,7 +6,7 @@ export const useMount = (fn: () => void) => {
     }, [])
 }
 
-export const useDebounce = (value: unknown, delay: number) => {
+export const useDebounce = <T>(value: T, delay: number): T => {
     const [debouceValue, setDebounceValue] = useState(value)
     useEffect(() => {
         const handle = setTimeout(() => {
