@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import { loadDevTools } from 'jira-dev-tool'
 import { AppProvider } from 'appProvider';
 import { App } from 'App';
+import 'antd/dist/antd.less'
 
 loadDevTools(() => ReactDOM.render(
   <React.StrictMode>

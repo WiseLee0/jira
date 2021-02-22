@@ -1,18 +1,31 @@
 import { useAuth } from "auth/auth-context"
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
+import { cleanObj } from "utils"
+import { useDebounce, useMount } from "utils/customHooks"
 import useRequest from "utils/http"
+import { List } from "./list"
+import { SearchPanel } from "./search-panel"
 
 export const HomePage = () => {
     const { logout } = useAuth()
+    const [users, setUsers] = useState([])
+    const [param, setParam] = useState({
+        name: "",
+        personId: "",
+    })
+    const [list, setList] = useState([]);
     const Request = useRequest()
+    useMount(() => {
+        Request('users').then(setUsers)
+    })
+    const debouncedParam = useDebounce(param, 200);
     useEffect(() => {
-        async function init() {
-            const res = await Request('users')
-            console.log(res);
-        }
-        init()
-    }, [])
+        Request("projects", { data: cleanObj(debouncedParam) }).then(setList);
+    }, [debouncedParam]);
+
     return <div>
         <button onClick={logout}>登出</button>
+        <SearchPanel users={users} setParam={setParam} param={param}></SearchPanel>
+        <List users={users} list={list} />
     </div>
 }
