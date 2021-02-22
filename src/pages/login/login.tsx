@@ -4,15 +4,9 @@ import React from "react"
 
 export const LoginView = () => {
     const { login } = useAuth()
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const username = (e.currentTarget.elements[0] as HTMLInputElement).value
-        const password = (e.currentTarget.elements[1] as HTMLInputElement).value
-        login({
-            username,
-            password
-        })
-    }
+    const handleSubmit = (values: { username: string; password: string }) => {
+        login(values);
+    };
     return <Form onFinish={handleSubmit}>
         <Form.Item
             name={"username"}
