@@ -1,6 +1,7 @@
+import { FullPageError, FullPageLoading } from 'components/full-page'
 import React, { useState } from 'react'
 import { ReactNode } from 'react'
-import { useMount } from 'utils/customHooks'
+import { useAsync, useMount } from 'utils/customHooks'
 import { Request } from 'utils/http'
 import * as auth from './auth-provider'
 interface AuthForm {
@@ -32,13 +33,19 @@ const AuthContext = React.createContext<{
 } | undefined>(undefined)
 AuthContext.displayName = 'AuthContext'
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState(null)
+    const { run, data: user, setData: setUser, isPadding, isLoading, isError, error } = useAsync<User | null>()
     const login = (form: AuthForm) => auth.login(form).then(setUser)
     const register = (form: AuthForm) => auth.register(form).then(setUser)
     const logout = () => auth.logout().then(() => setUser(null))
     useMount(() => {
-        bootstrapUser().then(setUser)
+        run(bootstrapUser())
     })
+    if (isPadding || isLoading) {
+        return <FullPageLoading></FullPageLoading>
+    }
+    if (isError) {
+        return <FullPageError error={error || new Error("发生了一些错误")}></FullPageError>
+    }
     return <AuthContext.Provider
         value={{ user, login, register, logout }}
         children={children} />

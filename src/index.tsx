@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { loadServer } from 'jira-dev-tool'
+import { loadServer, DevTools } from 'jira-dev-tool'
 import { AppProvider } from 'appProvider';
 import { App } from 'App';
 import 'antd/dist/antd.less'
@@ -10,6 +10,7 @@ import 'antd/dist/antd.less'
 loadServer(() => ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
+      <DevTools></DevTools>
       <App></App>
     </AppProvider>
   </React.StrictMode>,

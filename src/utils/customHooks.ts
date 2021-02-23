@@ -62,6 +62,8 @@ export const useAsync = <T>(initState?: State<T>) => {
         isSuccess: state.state === 'success',
         isError: state.state === 'error',
         run,
+        setData,
+        setError,
         ...state
     }
 }
