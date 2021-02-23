@@ -2,12 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { loadDevTools } from 'jira-dev-tool'
+import { loadServer } from 'jira-dev-tool'
 import { AppProvider } from 'appProvider';
 import { App } from 'App';
 import 'antd/dist/antd.less'
 
-loadDevTools(() => ReactDOM.render(
+loadServer(() => ReactDOM.render(
   <React.StrictMode>
     <AppProvider>
       <App></App>

@@ -14,18 +14,21 @@ export const HomeContainer = () => {
         personId: "",
     })
     const [list, setList] = useState([]);
+    const [loading, setLoading] = useState(true)
     const Request = useRequest()
     useMount(() => {
         Request('users').then(setUsers)
     })
     const debouncedParam = useDebounce(param, 200);
     useEffect(() => {
-        Request("projects", { data: cleanObj(debouncedParam) }).then(setList);
+        Request("projects", { data: cleanObj(debouncedParam) })
+            .then(setList)
+            .finally(() => setLoading(false))
     }, [debouncedParam]);
 
     return <Container>
         <SearchPanel users={users} setParam={setParam} param={param}></SearchPanel>
-        <List users={users} list={list} />
+        <List users={users} dataSource={list} loading={loading} />
     </Container>
 }
 

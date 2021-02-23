@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
-import { Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { useAuth } from "auth/auth-context";
-import { logout } from "auth/auth-provider";
 import React from "react";
 import { Row } from "utils/style";
 export const HomeHeader = () => {
-    const { user } = useAuth()
+    const { user, logout } = useAuth()
     return <Header between={true}>
         <HeaderLeft gap={true}>
             <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
@@ -18,7 +17,7 @@ export const HomeHeader = () => {
                 overlay={
                     <Menu>
                         <Menu.Item key={"logout"}>
-                            <a onClick={logout}>登出</a>
+                            <Button onClick={logout} type="link">登出</Button>
                         </Menu.Item>
                     </Menu>
                 }
