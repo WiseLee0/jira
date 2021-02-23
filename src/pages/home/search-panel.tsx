@@ -13,7 +13,7 @@ interface SearchPanelProps {
     users: User[];
     param: {
         name: string;
-        personId: number;
+        personId: string;
     };
     setParam: (param: SearchPanelProps["param"]) => void;
 }

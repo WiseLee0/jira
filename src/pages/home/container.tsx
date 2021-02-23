@@ -10,7 +10,7 @@ export const HomeContainer = () => {
     const [users, setUsers] = useState([])
     const [param, setParam] = useState({
         name: "",
-        personId: 0,
+        personId: "",
     })
     const debouncedParam = useDebounce(param, 200);
     const { data: list, isLoading } = useProject(debouncedParam)

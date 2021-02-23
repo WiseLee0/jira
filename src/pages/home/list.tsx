@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 export interface Project {
     id: number;
     name: string;
-    personId: number;
+    personId: string;
     pin: boolean;
     organization: string;
     created: number;
@@ -35,7 +35,7 @@ export const List = ({ users, ...props }: ListProps) => {
                     render(value, project) {
                         return (
                             <span>
-                                {users.find((user) => user.id === project.personId)?.name ||
+                                {users.find((user) => user.id === parseInt(project.personId))?.name ||
                                     "未知"}
                             </span>
                         );
