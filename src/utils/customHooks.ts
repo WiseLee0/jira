@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import { useEffect, useState } from "react"
 
 export const useMount = (fn: () => void) => {
@@ -66,4 +67,18 @@ export const useAsync = <T>(initState?: State<T>) => {
         setError,
         ...state
     }
+}
+
+export const useDocumentTitle = (title: string, leaveKeep: boolean = true) => {
+    const oldTitle = useRef(document.title).current
+    useEffect(() => {
+        document.title = title
+    }, [title])
+    useEffect(() => {
+        return () => {
+            if (!leaveKeep) {
+                document.title = oldTitle
+            }
+        }
+    }, [leaveKeep, oldTitle])
 }

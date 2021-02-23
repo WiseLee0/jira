@@ -3,9 +3,11 @@ import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { useAuth } from "auth/auth-context";
 import React from "react";
+import { useDocumentTitle } from "utils/customHooks";
 import { Row } from "utils/style";
 export const HomeHeader = () => {
     const { user, logout } = useAuth()
+    useDocumentTitle('项目管理', false)
     return <Header between={true}>
         <HeaderLeft gap={true}>
             <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
