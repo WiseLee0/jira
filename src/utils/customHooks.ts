@@ -1,5 +1,8 @@
-import { useRef } from "react"
+import { useMemo, useRef } from "react"
 import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router-dom"
+import type { URLSearchParamsInit } from "react-router-dom"
+import { cleanObj } from "utils"
 
 export const useMount = (fn: () => void) => {
     useEffect(() => {
@@ -81,4 +84,22 @@ export const useDocumentTitle = (title: string, leaveKeep: boolean = true) => {
             }
         }
     }, [leaveKeep, oldTitle])
+}
+
+export const useQueryParam = <T extends string>(keys: T[]) => {
+    const [searchParam, setSearchParam] = useSearchParams()
+    return [useMemo(() => {
+        return keys.reduce((acc, key) => {
+            return {
+                ...acc,
+                [key]: searchParam.get(key) || ""
+            }
+        }, {} as { [k in T]: string })
+    }, [searchParam]), (param: Partial<{ [p in T]: unknown }>) => {
+        const obj = cleanObj({
+            ...Object.fromEntries(searchParam),
+            ...param
+        }) as URLSearchParamsInit
+        return setSearchParam(obj)
+    }] as const
 }
