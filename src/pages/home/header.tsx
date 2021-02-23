@@ -3,6 +3,7 @@ import { Button, Dropdown, Menu } from "antd";
 import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
 import { useAuth } from "auth/auth-context";
 import React from "react";
+import { resetRoute } from "utils";
 import { useDocumentTitle } from "utils/customHooks";
 import { Row } from "utils/style";
 export const HomeHeader = () => {
@@ -10,7 +11,9 @@ export const HomeHeader = () => {
     useDocumentTitle('项目管理', false)
     return <Header between={true}>
         <HeaderLeft gap={true}>
-            <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+            <Button type="link" onClick={resetRoute}>
+                <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 255)"} />
+            </Button>
             <h2>项目</h2>
             <h2>用户</h2>
         </HeaderLeft>
