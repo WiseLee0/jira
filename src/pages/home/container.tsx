@@ -1,27 +1,23 @@
 import styled from "@emotion/styled"
 import { useProject } from "hooks/project"
+import { useUsers } from "hooks/users"
 import React, { useState } from "react"
 import { useDebounce, useMount } from "utils/customHooks"
-import useRequest from "utils/http"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 
 export const HomeContainer = () => {
-    const [users, setUsers] = useState([])
     const [param, setParam] = useState({
         name: "",
         personId: "",
     })
     const debouncedParam = useDebounce(param, 200);
     const { data: list, isLoading } = useProject(debouncedParam)
-    const Request = useRequest()
-    useMount(() => {
-        Request('users').then(setUsers)
-    })
+    const { data: users } = useUsers()
 
     return <Container>
-        <SearchPanel users={users} setParam={setParam} param={param}></SearchPanel>
-        <List users={users} dataSource={list || []} loading={isLoading} />
+        <SearchPanel users={users || []} setParam={setParam} param={param}></SearchPanel>
+        <List users={users || []} dataSource={list || []} loading={isLoading} />
     </Container>
 }
 
