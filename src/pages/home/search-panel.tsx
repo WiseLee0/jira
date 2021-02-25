@@ -1,4 +1,5 @@
 import { Form, Input, Select } from "antd";
+import { IdSelect } from "components/id-select";
 import type { Project } from './list'
 export interface User {
     id: number;
@@ -11,15 +12,12 @@ export interface User {
 
 interface SearchPanelProps {
     users: User[];
-    param: {
-        name: string;
-        personId: string;
-    };
+    param: Partial<Pick<Project, 'personId' | 'name'>>
     setParam: (param: SearchPanelProps["param"]) => void;
 }
-const { Option } = Select;
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
     return (
+
         <Form layout={"inline"}>
             <Form.Item>
                 <Input
@@ -35,23 +33,22 @@ export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
                 />
             </Form.Item>
             <Form.Item>
-                <Select
+                <IdSelect
                     value={param.personId}
-                    onChange={(value) =>
+                    options={users || []}
+                    defaultOptionName="负责人"
+                    onChange={value => {
                         setParam({
                             ...param,
-                            personId: value,
+                            personId: value
                         })
-                    }
-                >
-                    <Select.Option value={""}>负责人</Select.Option>
-                    {users.map((user) => (
-                        <Select.Option key={user.id} value={user.id}>
-                            {user.name}
-                        </Select.Option>
-                    ))}
-                </Select>
+                    }}
+                />
             </Form.Item>
+            <div> {
+                param.personId
+            }</div>
         </Form>
+
     );
 };
