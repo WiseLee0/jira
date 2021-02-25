@@ -32,6 +32,7 @@ const defaultInitState: State<null> = {
     state: 'padding'
 }
 export const useAsync = <T>(initState?: State<T>) => {
+    const mountedRef = useMountedRef()
     const [state, setState] = useState<State<T>>({ ...defaultInitState, ...initState })
     const setData = (data: T) => setState({
         data,
@@ -53,7 +54,7 @@ export const useAsync = <T>(initState?: State<T>) => {
         })
         return promise
             .then(data => {
-                setData(data)
+                if (mountedRef.current) setData(data)
                 return data
             }).catch(error => {
                 setError(error)
@@ -102,4 +103,15 @@ export const useQueryParam = <T extends string>(keys: T[]) => {
         }) as URLSearchParamsInit
         return setSearchParam(obj)
     }] as const
+}
+
+export const useMountedRef = () => {
+    const mounted = useRef(false)
+    useEffect(() => {
+        mounted.current = true
+        return () => {
+            mounted.current = false
+        }
+    })
+    return mounted
 }
