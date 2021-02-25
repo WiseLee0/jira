@@ -17,10 +17,11 @@ const toNumber = (value?: unknown) => {
 }
 
 export const IdSelect = (props: IdSelectProps) => {
-    const { value, onChange, options, defaultOptionName } = props;
+    const { value, onChange, options, defaultOptionName, ...restProps } = props;
     return <Select
+        onChange={(e) => onChange(Number(e))}
         value={options.length ? toNumber(value) : 0}
-        onChange={onChange}
+        {...restProps}
     >
         {
             defaultOptionName.length && <Select.Option value={0}>{defaultOptionName}</Select.Option>
