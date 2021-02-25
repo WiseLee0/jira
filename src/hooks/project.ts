@@ -12,3 +12,31 @@ export const useProject = (param?: Partial<Project>) => {
     }, [param]);
     return result
 }
+
+export const useEditProject = () => {
+    const Request = useRequest();
+    const { run, ...result } = useAsync()
+    const editProject = (params: Partial<Project>) =>
+        run(Request(`projects/${params.id}`, {
+            method: "PATCH",
+            data: params,
+        }))
+    return {
+        editProject,
+        ...result
+    }
+};
+
+export const useAddProject = () => {
+    const Request = useRequest();
+    const { run, ...result } = useAsync()
+    const addProject = (params: Partial<Project>) =>
+        run(Request(`projects/${params.id}`, {
+            method: "POST",
+            data: params,
+        }))
+    return {
+        addProject,
+        ...result
+    }
+};

@@ -3,6 +3,8 @@ import React from "react";
 import type { User } from "./search-panel";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { SingleStar } from "components/single-star";
+import { useEditProject } from "hooks/project";
 
 export interface Project {
     id: number;
@@ -17,11 +19,19 @@ interface ListProps extends TableProps<Project> {
     users: User[];
 }
 export const List = ({ users, ...props }: ListProps) => {
+    const { editProject } = useEditProject()
+    const onEditProject = (id: number) => (pin: boolean) => editProject({ id, pin })
     return (
         <Table
             rowKey={"id"}
             pagination={false}
             columns={[
+                {
+                    title: <SingleStar checked={true}></SingleStar>,
+                    render: (value, project) => {
+                        return <SingleStar checked={project.pin} onCheckedChange={onEditProject(project.id)}></SingleStar >
+                    }
+                },
                 {
                     title: "名称",
                     sorter: (a, b) => a.name.localeCompare(b.name),
