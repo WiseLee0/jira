@@ -1,10 +1,8 @@
-import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { ProjectList } from "./views/project-list";
+import { LoginScreen } from "./views/login";
 
 function App() {
-  return <ProjectList></ProjectList>;
+  return <LoginScreen></LoginScreen>;
 }
 
 export default App;
