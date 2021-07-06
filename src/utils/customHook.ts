@@ -16,3 +16,24 @@ export const useDebounce = <T>(params: T, delay: number = 800) => {
   }, [params]);
   return [val, setVal];
 };
+
+export const useArray = <T>(persons: T[] = []) => {
+  const [val, setVal] = useState(persons);
+  function add(param: T) {
+    setVal([...val, param]);
+  }
+  function clear() {
+    setVal([]);
+  }
+  function removeIndex(index: number) {
+    const copy = [...val];
+    copy.splice(index, 1);
+    setVal(copy);
+  }
+  return {
+    add,
+    clear,
+    removeIndex,
+    value: val,
+  };
+};
