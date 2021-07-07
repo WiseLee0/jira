@@ -13,7 +13,7 @@ export const useDebounce = <T>(params: T, delay: number = 800) => {
       setVal(params);
     }, delay);
     return () => clearTimeout(handle);
-  }, [params]);
+  }, [params, delay]);
   return [val, setVal];
 };
 

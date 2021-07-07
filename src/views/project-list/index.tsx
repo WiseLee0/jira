@@ -2,7 +2,7 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useEffect, useState } from "react";
 import { urlString } from "../../utils";
-import { useDebounce, useMount } from "../../utils/customHook";
+import { useDebounce, useMount } from "../../common/customHook";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectList = () => {
