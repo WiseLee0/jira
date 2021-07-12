@@ -2,24 +2,21 @@ import { SearchPanel } from "./search-panel";
 import { List } from "./list";
 import { useEffect, useState } from "react";
 import { urlString } from "../../utils";
-import { useDebounce, useMount } from "../../common/customHook";
+import {
+  useDebounce,
+  useMount,
+  useUrlQueryParams,
+} from "../../common/customHook";
+import { useHttp } from "../../common/http";
 const apiUrl = process.env.REACT_APP_API_URL;
-
 export const ProjectList = () => {
   const [users, setUsers] = useState([]);
 
-  const [param, setParam] = useState({
-    name: "",
-    personId: "",
-  });
   const [list, setList] = useState([]);
+  const [param, setParam] = useUrlQueryParams<"name" | "personId">(["name"]);
   const [deParam] = useDebounce(param);
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${urlString(param)}`).then(async (response) => {
-      if (response.ok) {
-        setList(await response.json());
-      }
-    });
+    setParam(param);
   }, [deParam]);
 
   useMount(() => {

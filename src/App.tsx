@@ -4,7 +4,11 @@ import { Authenticate } from "./views/authenticate";
 import { UnAuthenticate } from "./views/unauthenticate";
 function App() {
   const { user } = useAuth();
-  return <div>{user ? <Authenticate /> : <UnAuthenticate />}</div>;
+  return (
+    <div>
+      <Authenticate />
+    </div>
+  );
 }
 
 export default App;

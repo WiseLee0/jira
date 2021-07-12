@@ -1,10 +1,11 @@
+import { useAuth } from "../context/auth-context";
 import { logout } from "../context/auth-provider";
 import { urlString } from "../utils";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 interface Config extends RequestInit {
   token?: string;
-  data?: object;
+  data?: { [key: string]: unknown };
 }
 export const http = async (
   endpoint: string,
@@ -18,7 +19,7 @@ export const http = async (
     },
     ...customConfig,
   };
-  if (config.method.toUpperCase() == "GET") {
+  if (config.method.toUpperCase() === "GET" && data) {
     endpoint += `?${urlString(data)}`;
   } else {
     config.body = JSON.stringify(data || {});
@@ -37,4 +38,9 @@ export const http = async (
       }
       return Promise.reject(data);
     });
+};
+export const useHttp = () => {
+  const { user } = useAuth();
+  return (...[endpoint, config]: Parameters<typeof http>) =>
+    http(endpoint, { ...config, token: user?.token });
 };

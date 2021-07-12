@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { cleanObj, urlString } from "../utils";
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
@@ -14,7 +14,7 @@ export const useDebounce = <T>(params: T, delay: number = 800) => {
     }, delay);
     return () => clearTimeout(handle);
   }, [params, delay]);
-  return [val, setVal];
+  return [val, setVal] as const;
 };
 
 export const useArray = <T>(persons: T[] = []) => {
@@ -36,4 +36,37 @@ export const useArray = <T>(persons: T[] = []) => {
     removeIndex,
     value: val,
   };
+};
+const objPick = <O extends { [key in string]: unknown }, K extends keyof O>(
+  obj: O,
+  keys: K[]
+) => {
+  const filteredEntries = Object.entries(obj).filter(([key]) =>
+    keys.includes(key as K)
+  );
+  return Object.fromEntries(filteredEntries) as Pick<O, K>;
+};
+
+export const useUrlQueryParams = <K extends string>(keys: K[]) => {
+  const queryParam = useMemo(() => {
+    const searchParams = new URLSearchParams(globalThis.location.search);
+    return objPick(Object.fromEntries(searchParams), keys);
+  }, [globalThis.location.search]);
+
+  const setQueryParams = useCallback(
+    <K extends string>(params: { [key in K]: unknown }) => {
+      const obj = cleanObj({
+        ...queryParam,
+        ...params,
+      });
+      const query = urlString(obj);
+      let url = "";
+      if (query.length) url = globalThis.location.pathname + "?" + query;
+      else url = globalThis.location.pathname;
+      globalThis.history.pushState({}, "", url);
+    },
+    [queryParam]
+  );
+
+  return [queryParam, setQueryParams] as const;
 };

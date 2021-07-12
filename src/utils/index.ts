@@ -1,8 +1,8 @@
 export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
 
-export const cleanObj = (object: object) => {
-  const result: { [key: string]: unknown } = { ...object };
+export const cleanObj = (object: { [key: string]: unknown }) => {
+  const result = { ...object };
   Object.keys(result).forEach((key) => {
     const value = result[key];
     if (isVoid(value)) {
@@ -12,7 +12,7 @@ export const cleanObj = (object: object) => {
   return result;
 };
 
-export const urlString = (object: object | undefined) => {
+export const urlString = (object: { [key: string]: unknown }) => {
   if (object === undefined) return "";
   const obj = cleanObj(object);
   let str = "";
